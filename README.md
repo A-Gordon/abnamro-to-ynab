@@ -1,24 +1,40 @@
-This is an amalgamation of multiple projects
+# AbnAmro-to-YNAB
+This is an amalgamation of multiple projects. 
 
 These are 
 abnamro-tx: Took out the dates and simply download since the last statement download
 abncsv2qif: Took out the memo section to fit with csv upload in bulk by fintech sed -i.bak '/\^/ { N; d; }' test.csv
 fintech-to-ynab: Used to import the csv
 
-The aim of this project is to combine the three above into a single functioning auto import feature for abn amro to ynab
+## Function
+The aim of this project is to combine the three above into a single functioning auto import feature for abn amro to ynab.
 
-TARGET_DATA_FOLDER = './data'
+Currently the resulting container will run a python script that uses selenium to log into the ABN AMRO web portal, download a transactions statement and convert that into a csv. Once converted it will run fintech-to-ynab to upload the csv to the ynab account. 
 
-
-To do 
-Cron
-Add fucntionality to download a date range
-Add more functionality around headless/windows
-tidy up directories
-code it properly
-Add actual logging
+It is currently configured to run this every 15 mins by invoking cron. 
 
 
-docker run --env-file=../env.list --volume $(pwd)/export-data:/data --privileged ag_testing:latest
+## Getting Started
+- Clone the repo
+- Build the container
+- Run
 
-xvfb-daemon-run python download.py --period-from "2018-05-01" --period-to "2018-05-14"
+Build the container
+Run with privilege, a path mapped to /data and the required variables passed through. These can passed using the -e flag or --env-file to pass them in a file.
+
+These are : 
+- ABNAMRO_ACCOUNT_NUMBER
+- ABNAMRO_CARD_NUMBER
+- ABNAMRO_IDENTIFICATION_CODE
+- YNAB_ACCESS_TOKEN
+- YNAB_BUDGET_ID
+- YNAB_ACCOUNT_ID
+
+docker run --env-file=../env.list --volume $(pwd)/export-data:/data --privileged {{container_name}}:latest
+
+## To do 
+- Add different directory structure
+- Add actual logging, currently just outputs ugly logs to stdout
+- Tidy up and restructure code
+
+> This app is not officially supported by YNAB in any way. Use of this app could introduce problems into your budget that YNAB, through its official support channels, will not be able to troubleshoot or fix. Please use at your own risk!
