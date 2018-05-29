@@ -2,9 +2,9 @@
 This is an amalgamation of multiple projects. 
 
 These are 
-abnamro-tx: Took out the dates and simply download since the last statement download
-abncsv2qif: Took out the memo section to fit with csv upload in bulk by fintech sed -i.bak '/\^/ { N; d; }' test.csv
-fintech-to-ynab: Used to import the csv
+- abnamro-tx: Took out the dates and simply download since the last statement download
+- abncsv2qif: Took out the memo section to fit with csv upload in bulk with fintech-to-ynab
+- fintech-to-ynab: Used to import the csv
 
 ## Function
 The aim of this project is to combine the three above into a single functioning auto import feature for abn amro to ynab.
@@ -19,8 +19,13 @@ It is currently configured to run this every 15 mins by invoking cron.
 - Build the container
 - Run
 
-Build the container
+### Build
+```docker build -t {{container_name}} .```
+
+### Run
 Run with privilege, a path mapped to /data and the required variables passed through. These can passed using the -e flag or --env-file to pass them in a file.
+
+`docker run --env-file=../env.list --volume $(pwd)/export-data:/data --privileged {{container_name}}:latest`
 
 These are : 
 - ABNAMRO_ACCOUNT_NUMBER
@@ -30,7 +35,6 @@ These are :
 - YNAB_BUDGET_ID
 - YNAB_ACCOUNT_ID
 
-docker run --env-file=../env.list --volume $(pwd)/export-data:/data --privileged {{container_name}}:latest
 
 ## To do 
 - Add different directory structure
