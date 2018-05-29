@@ -36,6 +36,8 @@ These are :
 - YNAB_ACCOUNT_ID
 
 
+If you want to test this without the cronjob then change the entrypoint/cmd to /src/updater.sh
+
 ## To do 
 - Add different directory structure
 - Add actual logging, currently just outputs ugly logs to stdout
