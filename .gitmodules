@@ -1,0 +1,3 @@
+[submodule "fintech-to-ynab"]
+	path = fintech-to-ynab
+	url = git@github.com:fintech-to-ynab/fintech-to-ynab.git
