@@ -48,5 +48,6 @@ RUN chmod 0600 /etc/supervisord.conf /etc/supervisord.d/*.ini \
 ADD . /src
 RUN cd /src; pip install -r requirements.txt
 RUN cd /src/fintech-to-ynab; bundle 
+RUN mkdir /data/archived 
 
 CMD ["cron", "-f"]
