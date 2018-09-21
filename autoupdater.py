@@ -10,6 +10,7 @@ import download
 env_file = "/data/.env_vars"
 downloader = "/src/downloader/download.py"
 converter = "/src/converter/convert.py"
+# converter = "./converter/convert.py"
 TARGET_DATA_FOLDER = '/data'
 archived_data_folder = TARGET_DATA_FOLDER + "/archived"
 
@@ -93,7 +94,10 @@ def archive_files(_file):
 
     absolute_path = os.path.abspath(_file)
     path, filename = os.path.split(absolute_path)
+    print path
+    print filename
     archived_file = path + "/archived/" + filename
+    print archived_file
     os.rename(_file, archived_file)
 
 if __name__ == '__main__':

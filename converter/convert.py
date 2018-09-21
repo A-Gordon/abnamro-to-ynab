@@ -128,14 +128,14 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     totalresult = ""
+
     with open(args.filename, 'rb') as csvfile:
-        csvreader = csv.reader(csvfile, delimiter="\t")
+        csvreader = csv.reader((line.replace('\0','') for line in csvfile), delimiter="\t")
         totalresult = print_qif_header()
         counter = 1
         for row in parse_file(csvreader):
-            #print "processing line: " + str(counter)
+            # print "processing line: " + str(counter)
             counter += 1
             totalresult += print_qif_stmt(row)
-
 
     print totalresult.rstrip()

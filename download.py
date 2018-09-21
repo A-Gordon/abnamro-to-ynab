@@ -37,7 +37,8 @@ def init_chrome(download_folder):
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_experimental_option('prefs', {
         'download.default_directory': download_folder,
-        'download.prompt_for_download': False
+        'download.prompt_for_download': False,
+        'directory_upgrade': True
     })
 
     d = webdriver.Chrome(chrome_options=chrome_options)
@@ -107,6 +108,18 @@ def download_with_chrome(
         except TimeoutException:
             iprint("Cookies window didn't pop up")
 
+        iprint("Accepting menu changes")
+        try:
+            click_on(d, "//*[text()='Continue']")
+        except TimeoutException:
+            iprint("menu change window didn't pop up")
+
+        # iprint("Accepting IBAN changes")
+        # try:
+        #     click_on(d, "//*[text()='Continue']")
+        # except TimeoutException:
+        #     iprint("IBAN window didn't pop up")
+
         iprint("Logging in")
         # click_on(d, "//*[@title='Log in to Internet Banking']")
         # click_on(d, "//*[@title='Log on with your identification code']/span")
@@ -126,8 +139,8 @@ def download_with_chrome(
         # except TimeoutException:
         #     iprint("Cookies window didn't pop up")
 
-        click_on(d, "//*[text()='Tools']")
-        click_on(d, "//*[text()='Transactions']")
+        click_on(d, "//*[text()='Self service']")
+        click_on(d, "//*[text()=' Download transactions ']")
 
         iprint("Filling in export parameters")
         # Below section commented out to download transactions since last download
@@ -142,16 +155,14 @@ def download_with_chrome(
         # fill_datepart('bookDateToDay',  period_to.strftime('%d'))
         # fill_datepart('bookDateToMonth', period_to.strftime('%m'))
         # fill_datepart('bookDateToYear', period_to.strftime('%Y'))
-
         # click_on(d, "//label[@for='periodType1']")
 
-        fileformat = Select(d.find_element_by_name(
-            'mutationsDownloadSelectionCriteriaDTO.fileFormat'))
-        fileformat.select_by_visible_text('TXT')
+        options = Select(d.find_element_by_xpath('//form/section[1]/fieldset/select'))
+        options.select_by_visible_text('TXT')
 
         time.sleep(1)  # just to be sure, a lot of heavy JS is going on there
         iprint("Clicking OK to download file")
-        click_on(d, "//*[text()='ok']")
+        click_on(d, "//*[text()='download']")
 
         wait_for_download(download_folder)
 

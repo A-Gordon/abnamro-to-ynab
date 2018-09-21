@@ -1,9 +1,18 @@
-FROM joyzoursky/python-chromedriver:2.7
+FROM python:2.7
 
+RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
+RUN sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
 RUN apt-get update \
 && apt-get install -y git \
     supervisor \
-    cron
+    cron \
+    google-chrome-stable \
+    unzip \
+    vim
+
+RUN wget -O /tmp/chromedriver.zip https://chromedriver.storage.googleapis.com/2.38/chromedriver_linux64.zip
+RUN unzip /tmp/chromedriver.zip chromedriver -d /usr/local/bin/
+ENV DISPLAY=:99
 
 # # Ruby 2.4.0
 RUN git clone git://github.com/rbenv/rbenv.git /usr/local/rbenv \
@@ -43,11 +52,10 @@ ADD cron/crontab /etc/crontab
 
 RUN chmod 0600 /etc/supervisord.conf /etc/supervisord.d/*.ini \
 && /usr/bin/crontab /etc/crontab \
-&& touch /var/log/cron.log
+&& touch /var/log/cron.log 
 
 ADD . /src
 RUN cd /src; pip install -r requirements.txt
 RUN cd /src/fintech-to-ynab; bundle 
-RUN mkdir /data/archived 
 
 CMD ["cron", "-f"]
