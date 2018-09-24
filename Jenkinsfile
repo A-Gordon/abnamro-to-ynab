@@ -24,7 +24,6 @@ podTemplate(
           checkout scm
           sh "python --version"
           sh "ls -al"
-          sh "pylint "
       }
     }
     
