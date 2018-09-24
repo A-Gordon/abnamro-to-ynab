@@ -15,7 +15,6 @@ podTemplate(
     stage ('Build') {
       container ('ng') {
         sh "npm install"
-        sh "ng build"
       }
     }
   } // end node
