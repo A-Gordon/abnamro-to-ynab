@@ -24,9 +24,25 @@ podTemplate(
           checkout scm
           sh "python --version"
           sh "ls -al"
-
+          sh "pylint "
       }
     }
+    
+    stage ('Test parallelism') {
+      parallel {
+        stage ('Test sleep command - 30seconds') {
+          container ('python') {
+            sh "sleep 30"
+          }
+        }
+        stage ('Test sleep command - 60seconds') {
+          container ('python') {
+            sh "sleep 60"
+          }
+        }
+      }
+    }
+
 
   } // end node
 } // end podTemplate
