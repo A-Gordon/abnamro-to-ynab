@@ -36,6 +36,14 @@ These are :
 - YNAB_ACCOUNT_ID
 
 
+To get ynab budget IDs and account IDs the following calls can be used 
+
+
+    curl -H "Authorization: Bearer YOUR_YNAB_TOKEN_HERE" https://api.youneedabudget.com/v1/budgets | python -m json.tool    
+
+    curl -H "Authorization: Bearer YOUR_YNAB_TOKEN_HERE" https://api.youneedabudget.com/v1/budgets/YOUR_YNAB_BUDGET_ID_HERE/accounts | python -m json.tool
+
+
 If you want to test this without the cronjob then change the entrypoint/cmd to /src/updater.sh
 
 ## To do 
