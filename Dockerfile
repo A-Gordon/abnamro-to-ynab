@@ -33,7 +33,7 @@ RUN echo 'export RBENV_ROOT=/usr/local/rbenv' >> /root/.bashrc \
 ENV CONFIGURE_OPTS --disable-install-doc
 ENV PATH /usr/local/rbenv/bin:/usr/local/rbenv/shims:$PATH
 
-ENV RBENV_VERSION 2.4.0
+ENV RBENV_VERSION 2.5.1
 RUN apt-get install -y libreadline-dev
 
 RUN eval "$(rbenv init -)"; rbenv install $RBENV_VERSION \
@@ -52,7 +52,7 @@ ADD cron/crontab /etc/crontab
 
 RUN chmod 0600 /etc/supervisord.conf /etc/supervisord.d/*.ini \
 && /usr/bin/crontab /etc/crontab \
-&& touch /var/log/cron.log 
+&& touch /var/log/cron.log
 
 ADD . /src
 RUN cd /src; pip install -r requirements.txt

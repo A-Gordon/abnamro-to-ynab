@@ -85,7 +85,7 @@ def fintech(_csv_file):
     
     ynab_account_id=get_env_var("YNAB_ACCOUNT_ID")
 
-    _cmd = 'cd /src/fintech-to-ynab; rails runner "Import::Csv.new(\'%s\', \'%s\').import"' % (_csv_file, ynab_account_id)
+    _cmd = 'cd /src/fintech-to-ynab; bin/import csv --format default --path "%s" --ynab_account_id "%s"'  % (_csv_file, ynab_account_id)
     print (_cmd)
     result = execute(_cmd)
     archive_files(_csv_file)

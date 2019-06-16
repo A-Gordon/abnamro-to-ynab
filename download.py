@@ -104,15 +104,15 @@ def download_with_chrome(
 
         iprint("Accepting cookies")
         try:
-            click_on(d, "//*[text()='Yes, I accept cookies']")
+            click_on(d, "//*[text()='Save cookie-level']")
         except TimeoutException:
             iprint("Cookies window didn't pop up")
 
-        iprint("Accepting menu changes")
-        try:
-            click_on(d, "//*[text()='Continue']")
-        except TimeoutException:
-            iprint("menu change window didn't pop up")
+        #iprint("Accepting menu changes")
+        #try:
+        #    click_on(d, "//*[text()='Continue']")
+        #except TimeoutException:
+        #    iprint("menu change window didn't pop up")
 
         # iprint("Accepting IBAN changes")
         # try:
@@ -140,7 +140,7 @@ def download_with_chrome(
         #     iprint("Cookies window didn't pop up")
 
         click_on(d, "//*[text()='Self service']")
-        click_on(d, "//*[text()=' Download transactions ']")
+        click_on(d, "//*[text()='Download transactions']")
 
         iprint("Filling in export parameters")
         # Below section commented out to download transactions since last download
